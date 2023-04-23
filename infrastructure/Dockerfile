@@ -8,10 +8,10 @@ ENV GO111MODULE=on
 
 WORKDIR /build
 
-COPY ../go.mod ../go.sum ./
+COPY go.mod  ./
 RUN go mod download
 
-COPY ../. ./
+COPY . ./
 RUN go build -o chatgpt-wrapper main.go
 
 FROM alpine
