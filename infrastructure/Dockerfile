@@ -20,7 +20,7 @@ WORKDIR /app
 
 COPY --from=builder /build /app
 
-CMD["./chatgpt-wrapper"]
+CMD ["./chatgpt-wrapper"]
 
 
 
