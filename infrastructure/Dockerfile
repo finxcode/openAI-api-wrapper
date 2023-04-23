@@ -16,8 +16,6 @@ RUN go build -o chatgpt-wrapper main.go
 
 FROM alpine
 
-ENV OPENAI_API_KEY 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
-
 WORKDIR /app
 
 COPY --from=builder /build /app
