@@ -8,11 +8,11 @@ ENV GO111MODULE=on
 
 WORKDIR /build
 
-COPY go.mod  ./
+COPY go.mod go.sum ./
 RUN go mod download
 
 COPY . ./
-RUN go build -o chatgpt-wrapper main.go
+RUN go build -o chatgpt-wrapper ./cmd
 
 FROM alpine
 
@@ -21,6 +21,7 @@ WORKDIR /app
 COPY --from=builder /build /app
 
 CMD ["./chatgpt-wrapper"]
+
 
 
 
