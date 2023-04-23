@@ -1,9 +1,9 @@
 package in
 
 type CompletionCommand struct {
-	Model       string  `json:"model"`
-	Message     Message `json:"message"`
-	Temperature float32 `json:"temperature"`
+	Model       string    `json:"model"`
+	Messages    []Message `json:"messages"`
+	Temperature float32   `json:"temperature"`
 }
 
 type Message struct {

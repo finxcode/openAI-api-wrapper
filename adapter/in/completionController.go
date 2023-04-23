@@ -3,6 +3,7 @@ package in
 import (
 	"chatGPT-api-wrapper/adapter/in/utils"
 	"chatGPT-api-wrapper/application/port/in"
+	"chatGPT-api-wrapper/application/port/in/common"
 	"errors"
 	"github.com/gofiber/fiber/v2"
 	"log"
@@ -34,7 +35,21 @@ func (ctl *CompletionController) GetCompletion() fiber.Handler {
 				})
 			}
 		}
-		//ctl.getChatGPTCompletionUseCase.GetChatGPTCompletion()
-		return c.SendString("Hello, World!")
+		respBody := ctl.getChatGPTCompletionUseCase.GetChatGPTCompletion(*command)
+		if respBody == nil {
+			resp := common.Response{
+				ErrCode: fiber.StatusServiceUnavailable,
+				Message: "service unavailable, please try later",
+				Data:    nil,
+			}
+			return c.JSON(resp)
+		} else {
+			resp := common.Response{
+				ErrCode: 0,
+				Message: "ok",
+				Data:    respBody,
+			}
+			return c.JSON(resp)
+		}
 	}
 }

@@ -3,6 +3,7 @@ package service
 import (
 	"chatGPT-api-wrapper/application/port/in"
 	"chatGPT-api-wrapper/application/port/out"
+	"log"
 )
 
 type ChatGPTService struct {
@@ -16,5 +17,11 @@ func NewChatGPTService(getChatGPTCompletionPort out.GetChatGPTCompletionPort) *C
 }
 
 func (c *ChatGPTService) GetChatGPTCompletion(command in.CompletionCommand) *in.CompletionResponse {
-	return c.getChatGPTCompletionPort.GetChatGPTCompletionOutgoing(command)
+	if resp, err := c.getChatGPTCompletionPort.GetChatGPTCompletionOutgoing(command); err != nil {
+		log.Println(err.Error())
+		return nil
+	} else {
+		return resp
+	}
+
 }
