@@ -5,6 +5,7 @@ import (
 	"chatGPT-api-wrapper/application/port/in"
 	"encoding/json"
 	"fmt"
+	"log"
 	"net/http"
 	"os"
 )
@@ -32,6 +33,7 @@ func (c *ChatGPTCompletionAdapter) GetChatGPTCompletionOutgoing(command in.Compl
 	}
 	r.Header.Add("Content-Type", "application/json")
 	r.Header.Add("Authorization", fmt.Sprintf("Bearer %s", os.Getenv("OPENAI_API_KEY")))
+	log.Println(os.Getenv("OPENAI_API_KEY"))
 
 	client := &http.Client{}
 	res, err := client.Do(r)
