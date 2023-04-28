@@ -25,14 +25,20 @@ func (ctl *CompletionController) GetCompletion() fiber.Handler {
 		command := new(in.CompletionCommand)
 		if err := utils.DecodeJSONBody(c, command); err != nil {
 			if errors.As(err, &mr) {
-				return c.Status(mr.Status).JSON(fiber.Map{
-					"message": mr.Msg,
-				})
+				resp := common.Response{
+					ErrCode: mr.Status,
+					Message: mr.Msg,
+					Data:    nil,
+				}
+				return c.JSON(resp)
 			} else {
 				log.Print(err.Error())
-				return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
-					"message": "Internal Server Error",
-				})
+				resp := common.Response{
+					ErrCode: fiber.StatusServiceUnavailable,
+					Message: "service unavailable, please try later",
+					Data:    nil,
+				}
+				return c.JSON(resp)
 			}
 		}
 		respBody := ctl.getChatGPTCompletionUseCase.GetChatGPTCompletion(*command)
