@@ -19,6 +19,7 @@ func NewChatGPTService(getChatGPTCompletionPort out.GetChatGPTCompletionPort) *C
 func (c *ChatGPTService) GetChatGPTCompletion(command in.CompletionCommand) *in.CompletionResponse {
 	if resp, err := c.getChatGPTCompletionPort.GetChatGPTCompletionOutgoing(command); err != nil {
 		log.Println(err.Error())
+		log.Println("here")
 		return nil
 	} else {
 		return resp
