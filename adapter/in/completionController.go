@@ -51,7 +51,7 @@ func (ctl *CompletionController) GetCompletion() fiber.Handler {
 			return c.JSON(resp)
 		} else {
 			resp := common.Response{
-				ErrCode: 0,
+				ErrCode: 200,
 				Message: "ok",
 				Data:    respBody,
 			}

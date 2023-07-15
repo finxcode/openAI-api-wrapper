@@ -2,6 +2,7 @@ package out
 
 import (
 	"bytes"
+	"chatGPT-api-wrapper/adapter/common"
 	"chatGPT-api-wrapper/application/port/in"
 	"encoding/json"
 	"fmt"
@@ -45,5 +46,8 @@ func (c *ChatGPTCompletionAdapter) GetChatGPTCompletionOutgoing(command in.Compl
 		return nil, err
 	}
 
-	return &respBody, nil
+	return nil, &common.AdapterError{
+		Code: 1001,
+		Msg:  "tencent api timeout",
+	}
 }

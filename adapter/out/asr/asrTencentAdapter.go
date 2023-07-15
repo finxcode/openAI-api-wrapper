@@ -9,6 +9,7 @@ import (
 	"github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/common"
 	"github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/common/errors"
 	"github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/common/profile"
+	"strings"
 	"time"
 )
 
@@ -84,7 +85,7 @@ func (t *TencentAdapter) GetAsrResult(command *request.ASRCommand) (*response.As
 			}
 			if *resResp.Response.Data.Status == 2 {
 				fmt.Println(resResp.ToJsonString())
-				asrResp.Result = *resResp.Response.Data.Result
+				asrResp.Result = parseResult(*resResp.Response.Data.Result)
 				asrResp.AudioDuration = *resResp.Response.Data.AudioDuration
 				return &asrResp, nil
 			}
@@ -93,5 +94,18 @@ func (t *TencentAdapter) GetAsrResult(command *request.ASRCommand) (*response.As
 		return nil, submitError
 	}
 
-	return &asrResp, nil
+	return nil, nil
+}
+
+func parseResult(res string) string {
+	if len(res) == 0 {
+		return res
+	}
+
+	sepRes := strings.Split(res, "  ")
+	if len(sepRes) < 2 {
+		return res
+	}
+	fmt.Println(sepRes)
+	return sepRes[1]
 }
