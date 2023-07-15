@@ -5,6 +5,9 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
-func SetApiV1Routes(router fiber.Router, completionAdapter *in.CompletionController) {
-	router.Get("/getCompletion", completionAdapter.GetCompletion())
+func SetApiV1Routes(router fiber.Router,
+	completionAdapter *in.CompletionController,
+	asrController *in.AsrController) {
+	router.Get("/completion", completionAdapter.GetCompletion())
+	router.Post("/asr", asrController.GetASR())
 }
