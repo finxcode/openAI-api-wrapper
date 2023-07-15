@@ -1,6 +1,7 @@
 package asr
 
 import (
+	adapterCommon "chatGPT-api-wrapper/adapter/common"
 	"chatGPT-api-wrapper/adapter/out/asr/config"
 	"chatGPT-api-wrapper/application/port/in/request"
 	"chatGPT-api-wrapper/application/port/in/response"
@@ -94,7 +95,10 @@ func (t *TencentAdapter) GetAsrResult(command *request.ASRCommand) (*response.As
 		return nil, submitError
 	}
 
-	return nil, nil
+	return nil, &adapterCommon.AdapterError{
+		Code: 1001,
+		Msg:  "tencent api timeout",
+	}
 }
 
 func parseResult(res string) string {
