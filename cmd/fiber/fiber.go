@@ -17,7 +17,7 @@ const (
 
 func setRouteGroupApiV1(app *fiber.App) fiber.Router {
 	prefix := fmt.Sprintf("/%s/%s", API, Version)
-	return app.Group(prefix, middleware.ApiKeyAuth(), middleware.FiberLogger())
+	return app.Group(prefix, middleware.ApiKeyAuth())
 }
 
 func StartSrv(completionController *in.CompletionController,

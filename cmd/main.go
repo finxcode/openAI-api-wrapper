@@ -9,8 +9,8 @@ import (
 )
 
 func main() {
-	//os.Setenv("SECRETID", "AKIDvBOZnz4whOzZ8eEmPPQUVXbdeizHh5Wz")
-	//os.Setenv("SECRETKEY", "VvARchiBdvIh0HWhow6EHLP4gG0mXJ1h")
+	//os.Setenv("SECRETID", "AKIDiFYdegbNyNabTAfzA9B0g9RYUEpGZjpl")
+	//os.Setenv("SECRETKEY", "zmS1QhpnbLuJYcYJuKXYMyMcDfuwlNn1")
 	//os.Setenv("LOGFILE", "D:\\log\\hp-ai-service.log")
 
 	chatGPTCompletionAdapter := out.NewChatGPTCompletionAdapter()
