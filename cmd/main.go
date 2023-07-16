@@ -21,5 +21,7 @@ func main() {
 	asrService := service.NewAsrService(asrAdapter)
 	asrController := in.NewAsrController(asrService)
 
-	fiber.StartSrv(completionController, asrController)
+	asrCompletionController := in.NewAsrCompletionController(asrService, chatGPTCompletionService)
+
+	fiber.StartSrv(completionController, asrController, asrCompletionController)
 }

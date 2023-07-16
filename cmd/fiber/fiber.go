@@ -21,10 +21,11 @@ func setRouteGroupApiV1(app *fiber.App) fiber.Router {
 }
 
 func StartSrv(completionController *in.CompletionController,
-	asrController *in.AsrController) {
+	asrController *in.AsrController,
+	asrCompletionController *in.AsrCompletionController) {
 	app := fiber.New()
 	api := setRouteGroupApiV1(app)
-	routes.SetApiV1Routes(api, completionController, asrController)
+	routes.SetApiV1Routes(api, completionController, asrController, asrCompletionController)
 	err := app.Listen(PORT)
 	log.Fatalf("server started failed with error:%s", err.Error())
 }
