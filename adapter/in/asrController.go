@@ -88,6 +88,13 @@ func (a *AsrController) GetASR() fiber.Handler {
 				Data:    nil,
 			}
 			return c.JSON(resp)
+		} else if respBody.Result == "" {
+			resp := common.Response{
+				ErrCode: fiber.StatusBadRequest,
+				Message: "voice can not be recognized",
+				Data:    nil,
+			}
+			return c.JSON(resp)
 		} else {
 			resp := common.Response{
 				ErrCode: 200,

@@ -9,7 +9,7 @@ func SetApiV1Routes(router fiber.Router,
 	completionAdapter *in.CompletionController,
 	asrController *in.AsrController,
 	asrCompletionController *in.AsrCompletionController) {
-	router.Get("/completion", completionAdapter.GetCompletion())
+	router.Post("/completion", completionAdapter.GetCompletion())
 	router.Post("/asr", asrController.GetASR())
 	router.Post("/asrCompletion", asrCompletionController.GetAsrCompletion())
 }
