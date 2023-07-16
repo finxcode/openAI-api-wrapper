@@ -87,7 +87,7 @@ func (t *TencentAdapter) GetAsrResult(command *request.ASRCommand) (*response.As
 			if *resResp.Response.Data.Status == 2 {
 				fmt.Println(resResp.ToJsonString())
 				asrResp.Result = parseResult(*resResp.Response.Data.Result)
-				asrResp.AudioDuration = *resResp.Response.Data.AudioDuration
+				asrResp.AudioDuration = *resResp.Response.Data.AudioDuration * 1000
 				return &asrResp, nil
 			}
 		}
