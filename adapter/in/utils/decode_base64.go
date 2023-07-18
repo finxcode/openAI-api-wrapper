@@ -56,6 +56,19 @@ func DecodeBase64Input(encoded string) error {
 	return nil
 }
 
+func DecodeBase64TtsOutput(encoded string) error {
+	_, err := base64.StdEncoding.DecodeString(encoded)
+
+	if err != nil {
+		return &Base64EncodeError{
+			Status: http.StatusServiceUnavailable,
+			Msg:    "tts response audio base64 cannot be decoded",
+		}
+	}
+
+	return nil
+}
+
 func isSupported(t string, supportedTypes [11]string) bool {
 	for i := 0; i < len(supportedTypes); i++ {
 		if t == supportedTypes[i] {

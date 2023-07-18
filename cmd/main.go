@@ -4,6 +4,7 @@ import (
 	"chatGPT-api-wrapper/adapter/in"
 	"chatGPT-api-wrapper/adapter/out"
 	"chatGPT-api-wrapper/adapter/out/asr"
+	"chatGPT-api-wrapper/adapter/out/tts"
 	"chatGPT-api-wrapper/application/service"
 	"chatGPT-api-wrapper/cmd/fiber"
 )
@@ -21,7 +22,11 @@ func main() {
 	asrService := service.NewAsrService(asrAdapter)
 	asrController := in.NewAsrController(asrService)
 
-	asrCompletionController := in.NewAsrCompletionController(asrService, chatGPTCompletionService)
+	ttsAdapter := tts.NewAdapter()
+	ttsService := service.NewTtsService(ttsAdapter)
 
-	fiber.StartSrv(completionController, asrController, asrCompletionController)
+	asrCompletionController := in.NewAsrCompletionController(asrService, chatGPTCompletionService)
+	ttsController := in.NewAsrGptTtsController(asrService, chatGPTCompletionService, ttsService)
+
+	fiber.StartSrv(completionController, asrController, asrCompletionController, ttsController)
 }
