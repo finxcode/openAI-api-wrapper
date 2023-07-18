@@ -66,6 +66,8 @@ func (a *AsrCompletionController) GetAsrCompletion() fiber.Handler {
 			}
 		}
 
+		command.AudioBase64 = utils.GetRequestBase64(command.AudioBase64)
+
 		respBody, err := a.asrUseCase.RecognizeAudio(command)
 		if err != nil {
 			if errors.As(err, &timeoutError) {

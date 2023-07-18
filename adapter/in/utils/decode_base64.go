@@ -2,6 +2,7 @@ package utils
 
 import (
 	"encoding/base64"
+	"github.com/vincent-petithory/dataurl"
 	"net/http"
 	"strings"
 )
@@ -20,36 +21,27 @@ func (b *Base64EncodeError) Error() string {
 }
 
 func DecodeBase64Input(encoded string) error {
-	output, err := base64.StdEncoding.DecodeString(encoded)
 
+	dataUrl, err := dataurl.DecodeString(encoded)
 	if err != nil {
 		return &Base64EncodeError{
 			Status: http.StatusBadRequest,
-			Msg:    "wrong base64 encoding format",
+			Msg:    "wrong base64 encode",
 		}
 	}
+	subType := dataUrl.MediaType.Subtype
 
-	if len(output) < 512 {
-		return &Base64EncodeError{
-			Status: http.StatusBadRequest,
-			Msg:    "data too short",
-		}
-	}
-
-	contentType := http.DetectContentType(output[:512])
-	inputType := strings.Split(contentType, "/")
-
-	if len(inputType) < 2 {
-		return &Base64EncodeError{
-			Status: http.StatusBadRequest,
-			Msg:    "cannot identify input type",
-		}
-	}
-
-	if !isSupported(inputType[1], supportedTypes) {
+	if !isSupported(subType, supportedTypes) {
 		return &Base64EncodeError{
 			Status: http.StatusBadRequest,
 			Msg:    "input data type not supported",
+		}
+	}
+
+	if len(strings.Split(encoded, ",")) < 2 {
+		return &Base64EncodeError{
+			Status: http.StatusBadRequest,
+			Msg:    "input content should be separate by comma",
 		}
 	}
 
@@ -67,6 +59,10 @@ func DecodeBase64TtsOutput(encoded string) error {
 	}
 
 	return nil
+}
+
+func GetRequestBase64(encoded string) string {
+	return strings.Split(encoded, ",")[1]
 }
 
 func isSupported(t string, supportedTypes [11]string) bool {
