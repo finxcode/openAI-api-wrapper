@@ -6,6 +6,7 @@ import (
 	"chatGPT-api-wrapper/cmd/fiber/routes"
 	"fmt"
 	"github.com/gofiber/fiber/v2"
+	recover "github.com/gofiber/fiber/v2/middleware/recover"
 	"log"
 )
 
@@ -25,6 +26,7 @@ func StartSrv(completionController *in.CompletionController,
 	asrCompletionController *in.AsrCompletionController,
 	asrGptTtsController *in.AsrGptTtsController) {
 	app := fiber.New()
+	app.Use(recover.New())
 	api := setRouteGroupApiV1(app)
 	routes.SetApiV1Routes(api, completionController,
 		asrController, asrCompletionController,
