@@ -9,6 +9,7 @@ import (
 	"github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/common/errors"
 	"github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/common/profile"
 	tts "github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/tts/v20190823"
+	"log"
 )
 
 type Adapter struct {
@@ -54,6 +55,8 @@ func (a *Adapter) GetTtsResult(command *request.TtsCommand) (*response.TtsRespon
 	if response == nil {
 		return nil, errors2.New("response timeout")
 	}
+
+	log.Println(response)
 
 	resp, err := mapper.TencentTtsResponseMapper(*response)
 
