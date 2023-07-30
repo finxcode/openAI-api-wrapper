@@ -4,6 +4,7 @@ import (
 	"chatGPT-api-wrapper/adapter/in/mapper"
 	"chatGPT-api-wrapper/application/port/in/request"
 	"chatGPT-api-wrapper/application/port/in/response"
+	errors2 "errors"
 	"github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/common"
 	"github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/common/errors"
 	"github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/common/profile"
@@ -48,6 +49,10 @@ func (a *Adapter) GetTtsResult(command *request.TtsCommand) (*response.TtsRespon
 
 	if err != nil {
 		return nil, err
+	}
+
+	if response == nil {
+		return nil, errors2.New("response timeout")
 	}
 
 	resp, err := mapper.TencentTtsResponseMapper(*response)
