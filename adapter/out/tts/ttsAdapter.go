@@ -52,11 +52,11 @@ func (a *Adapter) GetTtsResult(command *request.TtsCommand) (*response.TtsRespon
 		return nil, err
 	}
 
+	log.Println(response)
+
 	if response == nil {
 		return nil, errors2.New("response timeout")
 	}
-
-	log.Println(response)
 
 	resp, err := mapper.TencentTtsResponseMapper(*response)
 
