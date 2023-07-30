@@ -5,12 +5,16 @@ import (
 	"chatGPT-api-wrapper/adapter/in/utils/mp3"
 	"chatGPT-api-wrapper/application/port/in/response"
 	"encoding/base64"
+	"errors"
 	tts "github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/tts/v20190823"
 	"io"
 )
 
 func TencentTtsResponseMapper(voiceResponse tts.TextToVoiceResponse) (*response.TtsResponse, error) {
 	ttsResp := response.TtsResponse{}
+	if voiceResponse.Response.Audio == nil {
+		return nil, errors.New("timeout")
+	}
 	ttsResp.Audio = *voiceResponse.Response.Audio
 	output, _ := base64.StdEncoding.DecodeString(ttsResp.Audio)
 	duration, err := getTtsResponseAudioDuration(output)

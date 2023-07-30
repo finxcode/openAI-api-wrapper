@@ -9,7 +9,6 @@ import (
 	"github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/common/errors"
 	"github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/common/profile"
 	tts "github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/tts/v20190823"
-	"log"
 )
 
 type Adapter struct {
@@ -43,7 +42,7 @@ func (a *Adapter) GetTtsResult(command *request.TtsCommand) (*response.TtsRespon
 	request.VoiceType = common.Int64Ptr(a.config.VoiceType)
 
 	// 返回的resp是一个TextToVoiceResponse的实例，与请求对象对应
-	response, err := client.TextToVoice(request)
+	voice, err := client.TextToVoice(request)
 	if _, ok := err.(*errors.TencentCloudSDKError); ok {
 		return nil, err
 	}
@@ -52,13 +51,11 @@ func (a *Adapter) GetTtsResult(command *request.TtsCommand) (*response.TtsRespon
 		return nil, err
 	}
 
-	log.Println(response)
-
-	if response == nil {
-		return nil, errors2.New("response timeout")
+	if voice == nil {
+		return nil, errors2.New("voice timeout")
 	}
 
-	resp, err := mapper.TencentTtsResponseMapper(*response)
+	resp, err := mapper.TencentTtsResponseMapper(*voice)
 
 	return resp, err
 }
